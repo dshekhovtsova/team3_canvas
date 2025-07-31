@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <!-- Chosen Palette: Warm Neutrals with Subtle Accents -->
-    <!-- Application Structure Plan: A single-page, vertical scrolling application designed for an internal executive board. It starts with a hero section, introduces the team to build credibility, then presents the core challenge, followed by a detailed problem statement, the customer journey, a dedicated market analysis section, a solution overview, an explanation of the n8n choice, an estimated POC budget, success criteria, and concluding with clear next steps. This linear, story-like structure is intuitive and ensures the key messages are delivered in a logical sequence, making the pitch easy to follow and digest. -->
+    <!-- Application Structure Plan: A single-page, vertical scrolling application designed for an internal executive board. It starts with a hero section, introduces the team to build credibility, then presents the core challenge, followed by a detailed problem statement, the customer journey, a dedicated market analysis section, a solution overview, an. explanation of the n8n choice, an estimated POC budget, success criteria, and concluding with clear next steps. This linear, story-like structure is intuitive and ensures the key messages are delivered in a logical sequence, making the pitch easy to follow and digest. -->
     <!-- Visualization & Content Choices: The primary visualization is the 'Meet the Team' section. Goal: Inform and build a personal connection. Method: A responsive grid of profile cards using HTML/Tailwind. Interaction: Subtle hover effects for engagement. Justification: This humanizes the pitch from the start. Other sections use clean typography for clarity, creating a scaffold for future charts (via Chart.js) or detailed text. The Customer Journey section uses a responsive grid layout to present tabular data, making complex information digestible and highlighting AI opportunities. The Problem Statement section uses a grid of distinct cards for each pain point to enhance visual appeal and readability. The Solution Overview section features a visually distinct, step-by-step layout for the AI workflow, using numbered cards for clarity and engagement. The 'Why n8n' section uses a grid of cards with icons and descriptions to explain the benefits. The Estimated POC Budget section uses a simple table to present cost breakdown, now clarifying n8n Community Edition and adding key term definitions, and including an option for n8n's hosted plan. The Success Criteria section uses a grid of distinct, icon-driven cards for each objective to enhance visual appeal and clarity. The Market Analysis section now includes industry benchmarks and competitor statistics as a dedicated informative block. Sections related to external pitch elements have been removed. The Next Steps section is placed at the very end. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
@@ -102,19 +102,18 @@
             border-left: 4px solid #FD7E14; /* N-iX orange */
             border: 1px solid #DEE2E6;
         }
-        .workflow-step-number-circle {
-            background-color: #FD7E14;
-            color: white;
-            border-radius: 50%;
-            width: 2.5rem;
-            height: 2.5rem;
+        /* Removed workflow-step-number-circle styles as it's replaced by icon */
+        .workflow-icon-container {
+            flex-shrink: 0;
+            margin-right: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            flex-shrink: 0;
-            margin-right: 1rem;
-            font-size: 1.25rem;
+        }
+        .workflow-step-icon {
+            width: 3rem; /* Larger icon size */
+            height: 3rem;
+            color: #E65100; /* Darker orange color for workflow icons */
         }
         .workflow-step-title {
             font-weight: 600;
@@ -134,13 +133,29 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
-            border-top: 4px solid #28A745; /* Green for success/positive aspects */
+            border-top: 4px solid #FD7E14; /* Changed to orange */
             border: 1px solid #DEE2E6;
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Added transition for hover */
+        }
+        .n8n-reason-card:hover {
+            transform: translateY(-5px) scale(1.02); /* Slight lift and scale on hover */
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15); /* More pronounced shadow on hover */
+        }
+        .n8n-reason-icon-container {
+            background-color: #FD7E14; /* Changed to orange background for icon */
+            border-radius: 50%; /* Circular shape */
+            width: 4rem; /* Size of the circle */
+            height: 4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle shadow for the circle */
         }
         .n8n-reason-icon {
-            font-size: 2.5rem;
-            color: #218838; /* Darker green */
-            margin-bottom: 1rem;
+            width: 2.5rem;
+            height: 2.5rem;
+            color: #FFFFFF; /* White color for the SVG icon */
         }
         .budget-table {
             width: 100%;
@@ -242,6 +257,27 @@
         .logo-subtext {
             color: #FD7E14; /* N-iX orange */
         }
+        /* New style for highlighted pain point */
+        .highlighted-pain-point-card {
+            border: 3px solid #FD7E14; /* Thicker orange border */
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15); /* Stronger shadow */
+            transform: scale(1.02); /* Slightly larger */
+        }
+        /* Impact section specific styles */
+        .impact-card {
+            background-color: #FFFFFF;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            padding: 2rem;
+            text-align: center;
+            border-top: 4px solid #28A745; /* Green for positive impact */
+            border: 1px solid #DEE2E6;
+        }
+        .impact-icon {
+            font-size: 3rem;
+            color: #218838; /* Darker green */
+            margin-bottom: 1.5rem;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -250,13 +286,14 @@
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <h1 class="text-xl font-bold text-gray-800">Team 3: Marketing Pitch</h1>
             <div class="hidden md:flex space-x-8">
-                <a href="#challenge" class="nav-link text-gray-600 font-medium">The Challenge</a>
                 <a href="#team" class="nav-link text-gray-600 font-medium">The Team</a>
+                <a href="#challenge" class="nav-link text-gray-600 font-medium">The Challenge</a>
                 <a href="#pains" class="nav-link text-gray-600 font-medium">Pains</a>
                 <a href="#customer-journey" class="nav-link text-gray-600 font-medium">Customer Journey</a>
                 <a href="#market-analysis" class="nav-link text-gray-600 font-medium">Market Analysis</a>
+                <a href="#problem-statement" class="nav-link text-gray-600 font-medium">Problem Statement</a>
+                <a href="#impact" class="nav-link text-gray-600 font-medium">Impact</a>
                 <a href="#solution-overview" class="nav-link text-gray-600 font-medium">Solution Overview</a>
-                <a href="#why-n8n" class="nav-link text-gray-600 font-medium">Why n8n</a>
                 <a href="#estimated-budget" class="nav-link text-gray-600 font-medium">Estimated Budget</a>
                 <a href="#success-criteria" class="nav-link text-gray-600 font-medium">Success Criteria</a>
                 <a href="#next-steps" class="nav-link text-gray-600 font-medium">Next Steps</a>
@@ -266,13 +303,14 @@
             </button>
         </nav>
         <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4">
-            <a href="#challenge" class="block py-2 nav-link text-gray-600">The Challenge</a>
             <a href="#team" class="block py-2 nav-link text-gray-600">The Team</a>
+            <a href="#challenge" class="block py-2 nav-link text-gray-600">The Challenge</a>
             <a href="#pains" class="block py-2 nav-link text-gray-600">Pains</a>
             <a href="#customer-journey" class="block py-2 nav-link text-gray-600">Customer Journey</a>
             <a href="#market-analysis" class="block py-2 nav-link text-gray-600">Market Analysis</a>
+            <a href="#problem-statement" class="block py-2 nav-link text-gray-600">Problem Statement</a>
+            <a href="#impact" class="block py-2 nav-link text-gray-600">Impact</a>
             <a href="#solution-overview" class="block py-2 nav-link text-gray-600">Solution Overview</a>
-            <a href="#why-n8n" class="block py-2 nav-link text-gray-600">Why n8n</a>
             <a href="#estimated-budget" class="block py-2 nav-link text-gray-600">Estimated Budget</a>
             <a href="#success-criteria" class="block py-2 nav-link text-gray-600">Success Criteria</a>
             <a href="#next-steps" class="block py-2 nav-link text-gray-600">Next Steps</a>
@@ -284,9 +322,11 @@
         <section id="hero" class="text-center mb-20 md:mb-32">
             <h2 class="text-4xl md:text-6xl font-bold text-gray-900 leading-tight mb-4">Driving Innovation: Empowering N-iX's Growth Through Strategic AI.</h2>
             <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
-                This presentation outlines a transformative opportunity to enhance our lead generation capabilities, aligning with N-iX's commitment to leveraging advanced technology for lasting business value and operational efficiency.
+                This presentation outlines a transformative opportunity to enhance our lead generation capabilities.
             </p>
         </section>
+
+        <div class="max-w-5xl mx-auto">
 
         <section id="challenge" class="mb-20 md:mb-32">
             <div class="text-center mb-12">
@@ -299,82 +339,29 @@
             </div>
         </section>
 
-        <section id="team" class="mb-20 md:mb-32">
-            <div class="text-center mb-12">
-                <h3 class="text-3xl font-bold text-gray-900">Meet the Experts</h3>
-                <p class="text-lg text-gray-500 mt-2">The core team driving this initiative forward.</p>
-            </div>
-            <div class="max-w-5xl mx-auto">
-                <div class="stakeholder-card">
-                    <div class="stakeholder-label">Stakeholder</div>
-                    <img src="Ihor.png" alt="Ihor Tymchuk" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover ring-4 ring-amber-200">
-                    <h4 class="text-xl font-bold text-gray-800">Ihor Tymchuk</h4>
-                    <p class="text-amber-600 font-medium">VP, Head of Delivery Department</p>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <div class="team-card bg-white rounded-lg shadow-md p-6 text-center">
-                        <img src="Iulia.png" alt="Iuliia Derekh" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover ring-4 ring-amber-200">
-                        <h4 class="text-xl font-bold text-gray-800">Iuliia Derekh</h4>
-                        <p class="text-amber-600 font-medium">Senior Team Manager</p>
-                        
-                    </div>
-
-                    <div class="team-card bg-white rounded-lg shadow-md p-6 text-center">
-                        <img src="Fred.png" alt="Frederic Pena" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover ring-4 ring-amber-200">
-                        <h4 class="text-xl font-bold text-gray-800">Frederic Pena</h4>
-                        <p class="text-amber-600 font-medium">Software Engineer • Fourth</p>
-                    </div>
-
-                    <div class="team-card bg-white rounded-lg shadow-md p-6 text-center">
-                        <img src="Daria.png" alt="Daria Shekhovtsova" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover ring-4 ring-amber-200">
-                        <h4 class="text-xl font-bold text-gray-800">Daria Shekhovtsova</h4>
-                        <p class="text-amber-600 font-medium">QC Lead • Fourth</p>
-                    </div>
-                    <div class="team-card bg-white rounded-lg shadow-md p-6 text-center">
-                        <img src="Svitlana.png" alt="Svitlana Sikora" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover ring-4 ring-amber-200">
-                        <h4 class="text-xl font-bold text-gray-800">Svitlana Sikora</h4>
-                        <p class="text-amber-600 font-medium">Software Engineer • ZIM</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <section id="pains" class="mb-20 md:mb-32">
             <div class="text-center mb-12">
                 <h3 class="text-3xl font-bold text-gray-900">Engagement Team's Main Pains</h3>
                 <p class="text-lg text-gray-500 mt-2">
-                    The engagement team faces several key challenges in their current lead generation efforts, which limit their effectiveness and confidence in utilizing new technologies like Generative AI.
+                    Key challenges limiting effectiveness and confidence in utilizing Generative AI.
                 </p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
                 <div class="pain-point-card">
                     <span class="pain-point-icon">⏱️</span>
                     <h4 class="text-xl font-semibold text-gray-800 mb-2">Time-Consuming Research</h4>
-                    <p class="text-gray-700 leading-relaxed">
-                        Manual research for lead identification and qualification is a significant drain on resources, slowing down the entire process.
-                    </p>
                 </div>
-                <div class="pain-point-card">
+                <div class="pain-point-card highlighted-pain-point-card">
                     <span class="pain-point-icon">👤</span>
                     <h4 class="text-xl font-semibold text-gray-800 mb-2">Limited Personalization</h4>
-                    <p class="text-gray-700 leading-relaxed">
-                        Difficulty in creating highly personalized outreach at scale leads to lower engagement rates and missed opportunities.
-                    </p>
                 </div>
                 <div class="pain-point-card">
                     <span class="pain-point-icon">🛠️</span>
                     <h4 class="text-xl font-semibold text-gray-800 mb-2">Many Different Tools Used</h4>
-                    <p class="text-gray-700 leading-relaxed">
-                        Reliance on a fragmented ecosystem of disparate tools causes inefficiencies and a steep learning curve.
-                    </p>
                 </div>
                 <div class="pain-point-card">
                     <span class="pain-point-icon">💡</span>
                     <h4 class="text-xl font-semibold text-gray-800 mb-2">Lack of Creative Ideas</h4>
-                    <p class="text-gray-700 leading-relaxed">
-                        A struggle to consistently generate fresh and innovative content or strategies for lead generation, impacting campaign novelty.
-                    </p>
                 </div>
             </div>
         </section>
@@ -383,10 +370,13 @@
             <div class="text-center mb-12">
                 <h3 class="text-3xl font-bold text-gray-900">Customer Journey & AI Integration</h3>
                 <p class="text-lg text-gray-500 mt-2">
-                    This section illustrates the typical customer journey in lead generation and highlights how Generative AI can be strategically integrated at each step to overcome existing pain points and enhance effectiveness.
+                    Leveraging Generative AI to automate, enrich, and personalize each stage of the customer journey for more effective lead generation.
                 </p>
+                <button id="toggleCustomerJourney" class="mt-4 px-6 py-3 bg-orange-500 text-white font-semibold rounded-lg shadow-md hover:bg-orange-600 transition duration-300 ease-in-out">
+                    Show Customer Journey
+                </button>
             </div>
-            <div class="overflow-x-auto bg-white rounded-lg shadow-md">
+            <div id="customerJourneyContent" class="hidden overflow-x-auto bg-white rounded-lg shadow-md">
                 <div class="min-w-full inline-block align-middle">
                     <div class="grid grid-cols-6 divide-x divide-amber-400 border border-amber-400 rounded-lg overflow-hidden">
                         <!-- Headers -->
@@ -521,7 +511,7 @@
             <div class="text-center mb-12">
                 <h3 class="text-3xl font-bold text-gray-900">Market Analysis</h3>
                 <p class="text-lg text-gray-500 mt-2">
-                    This section presents insights into the market landscape, target audience, and the potential for Generative AI in lead generation.
+                    Insights into the market landscape and potential for Generative AI in lead generation.
                 </p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
@@ -543,13 +533,12 @@
                     <span class="market-analysis-icon">🎯</span>
                     <h4 class="text-xl font-semibold text-gray-800 mb-2">Typical Reply Rate Today</h4>
                     <p class="text-gray-700 leading-relaxed">
-                        A general reply rate of 3-4% is now considered acceptable, though many companies struggle to achieve even this.
+                        A general reply rate of 3-4% is now considered acceptable.
                     </p>
                 </div>
                 <div class="market-analysis-card">
                     <span class="market-analysis-icon">⭐</span>
-                    <h4 class="text-xl font-semibold text-gray-800 mb-2">Good Reply Rate (Outsourcing)</h4>
-                    <p class="text-gray-700 leading-relaxed">
+                    <p class="text-700 leading-relaxed">
                         A 6-7% reply rate is considered a very good result in the outsourcing industry.
                     </p>
                 </div>
@@ -567,58 +556,123 @@
             </div>
         </section>
 
+        <section id="impact" class="mb-20 md:mb-32">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl font-bold text-gray-900">Impact of Solving the Problem</h3>
+                <p class="text-lg text-gray-500 mt-2">
+                    Addressing the challenge of limited personalization will unlock significant benefits for our lead generation efforts.
+                </p>
+            </div>
+            <div class="impact-card max-w-3xl mx-auto">
+                <span class="impact-icon">🚀</span>
+                <p class="text-xl text-gray-700 leading-relaxed font-medium">
+                    By enabling hyper-personalized outreach, we will significantly increase engagement rates, foster stronger connections with potential leads, and ultimately drive higher conversion rates and revenue growth for N-iX. This strategic shift will transform our lead generation from a volume-based approach to a value-driven one.
+                </p>
+            </div>
+        </section>
+
         <section id="solution-overview" class="mb-20 md:mb-32">
             <div class="text-center mb-12">
                 <h3 class="text-3xl font-bold text-gray-900">Our Proposed Solution: 7-Step AI Workflow POC</h3>
                 <p class="text-lg text-gray-500 mt-2">
-                    Our solution focuses on Hyper Personalization based on deep research of new leads' profiles, leveraging a robust 7-step AI workflow designed to streamline and enhance lead generation. This is presented as a Proof of Concept (POC).
+                    Hyper Personalization based on deep research of new leads' profiles, leveraging a robust 7-step AI workflow.
                 </p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
                 <div class="workflow-step-card">
-                    <div class="workflow-step-number-circle">1</div>
+                    <div class="workflow-icon-container">
+                        <svg class="workflow-step-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                            <path d="M2 17l10 5 10-5"></path>
+                            <path d="M2 12l10 5 10-5"></path>
+                        </svg>
+                    </div>
                     <div>
                         <div class="workflow-step-title">Data Ingestion</div>
-                        <div class="workflow-step-description">Input from Google Sheet (Pre-populated manually for POC).</div>
+                        <div class="workflow-step-description">Input from Google Sheet.</div>
                     </div>
                 </div>
                 <div class="workflow-step-card">
-                    <div class="workflow-step-number-circle">2</div>
+                    <div class="workflow-icon-container">
+                        <svg class="workflow-step-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="2" ry="2"></rect>
+                            <path d="M6 8h.01"></path>
+                            <path d="M10 8h.01"></path>
+                            <path d="M14 8h.01"></path>
+                            <path d="M18 8h.01"></path>
+                            <path d="M6 12h.01"></path>
+                            <path d="M10 12h.01"></path>
+                            <path d="M14 12h.01"></path>
+                            <path d="M18 12h.01"></path>
+                            <path d="M6 16h.01"></path>
+                            <path d="M10 16h.01"></path>
+                            <path d="M14 16h.01"></path>
+                            <path d="M18 16h.01"></path>
+                        </svg>
+                    </div>
                     <div>
                         <div class="workflow-step-title">Intelligent Orchestration</div>
                         <div class="workflow-step-description">n8n as the core engine.</div>
                     </div>
                 </div>
                 <div class="workflow-step-card">
-                    <div class="workflow-step-number-circle">3</div>
+                    <div class="workflow-icon-container">
+                        <svg class="workflow-step-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1.5.5 2.5 1.5 3.5.8.8 1.3 1.5 1.5 2.5"></path>
+                            <path d="M9 18h6"></path>
+                            <path d="M10 22h4"></path>
+                        </svg>
+                    </div>
                     <div>
                         <div class="workflow-step-title">Insight Generation</div>
                         <div class="workflow-step-description">Web Search + Gemini API.</div>
                     </div>
                 </div>
                 <div class="workflow-step-card">
-                    <div class="workflow-step-number-circle">4</div>
+                    <div class="workflow-icon-container">
+                        <svg class="workflow-step-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </div>
                     <div>
                         <div class="workflow-step-title">Profile Enrichment</div>
                         <div class="workflow-step-description">Populate Google Sheet.</div>
                     </div>
                 </div>
                 <div class="workflow-step-card">
-                    <div class="workflow-step-number-circle">5</div>
+                    <div class="workflow-icon-container">
+                        <svg class="workflow-step-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L2 22l1.5-4.5A8.38 8.38 0 0 1 2 11.5a8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5A8.5 8.5 0 0 1 21 11.5z"></path>
+                        </svg>
+                    </div>
                     <div>
                         <div class="workflow-step-title">Personalized Content</div>
                         <div class="workflow-step-description">Gemini API for outreach.</div>
                     </div>
                 </div>
                 <div class="workflow-step-card">
-                    <div class="workflow-step-number-circle">6</div>
+                    <div class="workflow-icon-container">
+                        <svg class="workflow-step-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-8.5"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                    </div>
                     <div>
                         <div class="workflow-step-title">Spam Checks and Rephrase</div>
                         <div class="workflow-step-description">Email text scanned for spam triggers.</div>
                     </div>
                 </div>
                 <div class="workflow-step-card">
-                    <div class="workflow-step-number-circle">7</div>
+                    <div class="workflow-icon-container">
+                        <svg class="workflow-step-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <line x1="22" y1="2" x2="15" y2="22"></line>
+                            <line x1="11" y1="13" x2="2" y2="10"></line>
+                        </svg>
+                    </div>
                     <div>
                         <div class="workflow-step-title">Ready for Action</div>
                         <div class="workflow-step-description">Drafts Cold Emails into Google Sheet.</div>
@@ -631,37 +685,46 @@
             <div class="text-center mb-12">
                 <h3 class="text-3xl font-bold text-gray-900">Why n8n: Our Choice for Orchestration</h3>
                 <p class="text-lg text-gray-500 mt-2">
-                    We selected n8n as the core orchestration engine for our POC due to its compelling advantages that directly address the needs of an efficient and scalable AI workflow.
+                    We selected n8n due to its compelling advantages for an efficient and scalable AI workflow.
                 </p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                 <div class="n8n-reason-card">
-                    <span class="n8n-reason-icon">💲</span>
+                    <div class="n8n-reason-icon-container">
+                        <svg class="n8n-reason-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="1" x2="12" y2="23"></line>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                        </svg>
+                    </div>
                     <h4 class="text-xl font-semibold text-gray-800 mb-2">Cost-Effectiveness</h4>
-                    <p class="text-gray-700 leading-relaxed">
-                        Its predictable pricing model ensures scalability without escalating costs, making it ideal for high-volume operations and budget control.
-                    </p>
                 </div>
                 <div class="n8n-reason-card">
-                    <span class="n8n-icon">🔒</span>
+                    <div class="n8n-reason-icon-container">
+                        <svg class="n8n-reason-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                    </div>
                     <h4 class="text-xl font-semibold text-gray-800 mb-2">Data Control & Sovereignty</h4>
-                    <p class="text-gray-700 leading-relaxed">
-                        The self-hosting capability allows us to keep sensitive lead data in-house, which is crucial for compliance and data privacy regulations.
-                    </p>
                 </div>
                 <div class="n8n-reason-card">
-                    <span class="n8n-icon">🧩</span>
+                    <div class="n8n-reason-icon-container">
+                        <svg class="n8n-reason-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                    </div>
                     <h4 class="text-xl font-semibold text-gray-800 mb-2">Flexibility & Customization</h4>
-                    <p class="text-gray-700 leading-relaxed">
-                        As a developer-friendly platform, n8n allows for custom code and bespoke integrations, adapting seamlessly to evolving needs and unique workflows.
-                    </p>
                 </div>
                 <div class="n8n-reason-card">
-                    <span class="n8n-icon">📈</span>
+                    <div class="n8n-reason-icon-container">
+                        <svg class="n8n-reason-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </div>
                     <h4 class="text-xl font-semibold text-gray-800 mb-2">Scalability & Growth</h4>
-                    <p class="text-gray-700 leading-relaxed">
-                        It offers predictable costs and granular control over infrastructure, enabling seamless scaling as our lead generation efforts expand and mature.
-                    </p>
                 </div>
             </div>
         </section>
@@ -670,10 +733,13 @@
             <div class="text-center mb-12">
                 <h3 class="text-3xl font-bold text-gray-900">Estimated POC Budget</h3>
                 <p class="text-lg text-gray-500 mt-2">
-                    A breakdown of the estimated monthly costs for running the Proof of Concept, with options for n8n orchestration.
+                    Maximum estimated monthly cost for the Proof of Concept: <span class="font-bold text-orange-600">$86.18</span>
                 </p>
+                <button id="toggleEstimatedBudget" class="mt-4 px-6 py-3 bg-orange-500 text-white font-semibold rounded-lg shadow-md hover:bg-orange-600 transition duration-300 ease-in-out">
+                    Show Detailed Budget
+                </button>
             </div>
-            <div class="bg-white rounded-lg shadow-md p-8 max-w-3xl mx-auto overflow-x-auto">
+            <div id="estimatedBudgetContent" class="hidden bg-white rounded-lg shadow-md p-8 max-w-3xl mx-auto overflow-x-auto">
                 <table class="budget-table">
                     <thead>
                         <tr>
@@ -740,17 +806,17 @@
                     </tfoot>
                 </table>
                 <p class="text-sm text-gray-500 mt-4">
-                    *Note: Costs are estimates based on publicly available pricing and assumed usage for the POC. Actual costs may vary. LLM API cost for 1M tokens is an average of input/output pricing ($0.075 + $0.30) / 2 = $0.1875.
+                    *Note: Costs are estimates. Actual costs may vary.
                 </p>
 
                 <div class="mt-8">
                     <h4 class="text-xl font-semibold text-gray-800 mb-2">Key Terms Explained:</h4>
                     <ul class="list-disc pl-5 text-gray-700 space-y-2">
                         <li>
-                            Workflow Execution (n8n): In n8n, an "execution" refers to a single complete run of an entire workflow, regardless of how many steps or operations are contained within that workflow. This offers predictable pricing as you pay per workflow run, not per individual action.
+                            Workflow Execution (n8n): A single complete run of an entire workflow.
                         </li>
                         <li>
-                            Request / Operation (APIs): For APIs like Web Scraper or Spam Checker, a "request" or "operation" typically means a single call made to that API. Each time your system asks the API to perform a specific task (e.g., scrape a page, check for spam), it counts as one request.
+                            Request / Operation (APIs): A single call made to an API.
                         </li>
                     </ul>
                 </div>
@@ -761,7 +827,7 @@
             <div class="text-center mb-12">
                 <h3 class="text-3xl font-bold text-gray-900">Success Criteria for Our POC</h3>
                 <p class="text-lg text-gray-500 mt-2">
-                    Our Proof of Concept will be deemed successful based on achieving the following measurable outcomes within one month of operation.
+                    Measurable outcomes for a successful Proof of Concept within one month.
                 </p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
@@ -770,7 +836,7 @@
                     <div>
                         <h4 class="text-xl font-semibold text-gray-800 mb-2">High-Value Lead Generation</h4>
                         <p class="text-gray-700 leading-relaxed">
-                            Acquire at least 1 to 2 new leads, each with the potential to generate $50,000 in revenue within one month of the POC.
+                            Acquire at least 1 to 2 new leads, each with potential for $50,000 revenue within one month.
                         </p>
                     </div>
                 </div>
@@ -779,7 +845,7 @@
                     <div>
                         <h4 class="text-xl font-semibold text-gray-800 mb-2">Improved Reply Rates</h4>
                         <p class="text-gray-700 leading-relaxed">
-                            Demonstrate a significant increase in email reply rates, targeting 6-7% (considered a very good result for outsourcing) or at least 3-4% (which is considered not bad, compared to current 1-2%).
+                            Target 6-7% reply rate (very good for outsourcing) or at least 3-4% (compared to current 1-2%).
                         </p>
                     </div>
                 </div>
@@ -790,18 +856,18 @@
             <div class="text-center mb-12">
                 <h3 class="text-3xl font-bold text-gray-900">Next Steps</h3>
                 <p class="text-lg text-gray-500 mt-2">
-                    A clear outline of the immediate future actions following this presentation.
+                    Immediate future actions following this presentation.
                 </p>
             </div>
             <div class="bg-white rounded-lg shadow-md p-8 max-w-3xl mx-auto content-section pl-6">
                 <ul class="list-disc pl-5 mt-2 space-y-2">
-                    <li>Secure Final Approval & Resources: Obtain necessary approvals and allocate the budget for the one-month POC.</li>
-                    <li>Kick-off Meeting: Schedule a detailed kick-off meeting to define specific target lead criteria and access requirements.</li>
-                    <li>POC Environment Setup: Our team will set up the n8n orchestration, integrate APIs, and prepare Google Sheets for data.</li>
-                    <li>Execute AI Workflow: Begin the automated 7-step AI workflow for hyper-personalized lead generation.</li>
-                    <li>Weekly Progress Reviews: Conduct regular check-ins to monitor performance, gather feedback, and make real-time adjustments.</li>
-                    <li>Final POC Evaluation: After one month, a comprehensive review of results against the defined success criteria (new leads, reply rates).</li>
-                    <li>Strategic Planning for Scale: Based on successful POC outcomes, develop a roadmap for full-scale implementation and broader integration within your sales and marketing operations.</li>
+                    <li>Secure Final Approval & Resources</li>
+                    <li>Kick-off Meeting: Define target lead criteria and access requirements.</li>
+                    <li>POC Environment Setup: Set up n8n orchestration, integrate APIs, prepare Google Sheets.</li>
+                    <li>Execute AI Workflow: Begin automated 7-step AI workflow for hyper-personalized lead generation.</li>
+                    <li>Weekly Progress Reviews: Monitor performance, gather feedback, adjust.</li>
+                    <li>Final POC Evaluation: Review results against success criteria.</li>
+                    <li>Strategic Planning for Scale: Develop roadmap for full-scale implementation.</li>
                 </ul>
             </div>
         </section>
@@ -822,6 +888,32 @@
             link.addEventListener('click', () => {
                 mobileMenu.classList.add('hidden');
             });
+        });
+
+        // JavaScript for Customer Journey toggle
+        const toggleCustomerJourneyButton = document.getElementById('toggleCustomerJourney');
+        const customerJourneyContent = document.getElementById('customerJourneyContent');
+
+        toggleCustomerJourneyButton.addEventListener('click', () => {
+            customerJourneyContent.classList.toggle('hidden');
+            if (customerJourneyContent.classList.contains('hidden')) {
+                toggleCustomerJourneyButton.textContent = 'Show Customer Journey';
+            } else {
+                toggleCustomerJourneyButton.textContent = 'Hide Customer Journey';
+            }
+        });
+
+        // JavaScript for Estimated Budget toggle
+        const toggleEstimatedBudgetButton = document.getElementById('toggleEstimatedBudget');
+        const estimatedBudgetContent = document.getElementById('estimatedBudgetContent');
+
+        toggleEstimatedBudgetButton.addEventListener('click', () => {
+            estimatedBudgetContent.classList.toggle('hidden');
+            if (estimatedBudgetContent.classList.contains('hidden')) {
+                toggleEstimatedBudgetButton.textContent = 'Show Detailed Budget';
+            } else {
+                toggleEstimatedBudgetButton.textContent = 'Hide Detailed Budget';
+            }
         });
     </script>
 </body>
